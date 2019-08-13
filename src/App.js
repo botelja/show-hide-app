@@ -1,25 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function App({ posts }) {
+  const [openIndex, setOpenIndex] = React.useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ul className="App">
+      {posts.map(({ id, img, text }, index) => {
+        const isOpen = openIndex === index;
+
+        const textToShow = isOpen ? text : text.substr(0, 100) + '...';
+
+        const handleTextToShow = () => {
+          setOpenIndex(index);
+        };
+        return (
+          <li key={id}>
+            <img src={img} alt={id} />
+            <p>{textToShow}</p>
+            {!isOpen && <button onClick={handleTextToShow}>Open</button>}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
